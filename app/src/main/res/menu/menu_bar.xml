@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
         <item
         android:id="@+id/addButton"
-        android:title="增加"
+        android:title="@string/add"
+            android:orderInCategory="1"
         app:showAsAction="never" />
 
         <item
         android:id="@+id/settings"
-        android:title="設定"
+        android:title="@string/setting"
+            android:orderInCategory="2"
         app:showAsAction="never" />
 
 </menu>

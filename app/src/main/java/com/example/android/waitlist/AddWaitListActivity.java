@@ -13,7 +13,7 @@ import android.widget.EditText;
 import com.example.android.waitlist.data.WaitlistContract;
 import com.example.android.waitlist.data.WaitlistDbHelper;
 
-public class AddWaitListActivity extends AppCompatActivity {
+public class AddWaitListActivity extends MainActivity {
     private SQLiteDatabase mDb;
     private EditText mNewGuestNameEditText;
     private EditText mNewPartySizeEditText;

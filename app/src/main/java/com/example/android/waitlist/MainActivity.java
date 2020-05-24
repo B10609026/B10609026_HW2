@@ -114,12 +114,16 @@ public class MainActivity extends AppCompatActivity{
         switch (item.getItemId()){
             case R.id.addButton:
                 Intent AddIntent = new Intent(this,AddWaitListActivity.class);
-                startActivity(AddIntent);
+                this.startActivity(AddIntent);
+                break;
             case R.id.settings:
-
-
+                Intent settingintent = new Intent(this,SettingsActivity.class);
+                this.startActivity(settingintent);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
        }
-        return super.onOptionsItemSelected(item);
+       return true;
     }
 
 

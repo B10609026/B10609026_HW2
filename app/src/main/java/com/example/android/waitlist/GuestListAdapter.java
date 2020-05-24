@@ -1,11 +1,17 @@
 package com.example.android.waitlist;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.waitlist.data.WaitlistContract;
@@ -27,6 +33,7 @@ public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.Gues
         this.mCursor = cursor;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public GuestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Get the RecyclerView item layout
@@ -80,12 +87,13 @@ public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.Gues
     /**
      * Inner class to hold the views needed to display a single item in the recycler-view
      */
-    class GuestViewHolder extends RecyclerView.ViewHolder {
+    class GuestViewHolder extends RecyclerView.ViewHolder implements SharedPreferences.OnSharedPreferenceChangeListener{
 
         // Will display the guest name
         TextView nameTextView;
         // Will display the party size number
         TextView partySizeTextView;
+        LinearLayout linearLayout;
 
         /**
          * Constructor for our ViewHolder. Within this constructor, we get a reference to our
@@ -94,10 +102,44 @@ public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.Gues
          * @param itemView The View that you inflated in
          *                 {@link GuestListAdapter#onCreateViewHolder(ViewGroup, int)}
          */
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         public GuestViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             partySizeTextView = (TextView) itemView.findViewById(R.id.party_size_text_view);
+            setupSharedPreferences();
+
+        }
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        public void setupSharedPreferences() {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+            loadColorFromPreferences(sharedPreferences);
+
+            sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        }
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        private void loadColorFromPreferences(SharedPreferences sharedPreferences) {
+            String background_chooser = sharedPreferences.getString(mContext.getString(R.string.pref_color_key),
+                    mContext.getString(R.string.pref_color_red_value));
+
+            if(background_chooser.equals("red")){
+                partySizeTextView.getBackground().setTint(ContextCompat.getColor(mContext, R.color.shapeRed));
+            }
+
+            else if(background_chooser.equals("blue")){
+                partySizeTextView.getBackground().setTint(ContextCompat.getColor(mContext, R.color.shapeBlue));
+            }
+
+            else if(background_chooser.equals("green")){
+                partySizeTextView.getBackground().setTint(ContextCompat.getColor(mContext, R.color.shapeGreen));
+            }
+        }
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if(key.equals(mContext.getString(R.string.pref_color_key))) {
+                loadColorFromPreferences(sharedPreferences);
+            }
         }
 
     }

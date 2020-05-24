@@ -26,4 +26,7 @@
 
     <!-- Value in SharedPreferences for green color option -->
     <string name="pref_color_green_value" translatable="false">green</string>
+
+    <string name="add">增加</string>
+    <string name="setting">設定</string>
 </resources>
